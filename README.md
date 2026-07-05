@@ -2,7 +2,7 @@
 
 Submitted by: **Christine Grimadeau**
 
-This web app: **TicketPulse is ...**
+This web app: **TicketPulse**
 
 Time spent: **X** hours spent in total
 

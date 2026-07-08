@@ -3,12 +3,12 @@ import './Dashboard.css'
 
 // . ݁₊ ⊹ Fetch events from the API ⊹ . ݁˖ . ݁
 export default function Dashboard() {
-    const [events, setEvents] = useState(null);
+    const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
 // . ݁₊ ⊹ State for user input filters ⊹ . ݁˖ . ݁
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedtype, setSelectedType] = useState('All');
+    const [selectedType, setSelectedType] = useState('All');
 
 // . ݁₊ ⊹ Pulling the Client ID safely from my environment variables ⊹ . ݁˖ . ݁
     const CLIENT_ID = import.meta.env.VITE_SEATGEEK_CLIENT_ID;
@@ -17,9 +17,16 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchLiveEvents = async () => {
             try {
+                // . ݁₊ ⊹ Safe Check ⊹ . ݁˖ . ݁
+                if (!CLIENT_ID) {
+                    console.error("SeatGeek Client ID is not set. Please check your environment variables.");
+                    setLoading(false);
+                    return;
+                }
                 const response = await fetch(`https://api.seatgeek.com/2/events?client_id=${CLIENT_ID}&per_page=50`);
                 const data = await response.json();
 
+                // . ݁₊ ⊹ Using a fallback empty array if the 'events' key is not present or undefined ⊹ . ݁˖ . ݁
                 setEvents(data.events || []);
                 setLoading(false);
             } catch (error) {
@@ -30,27 +37,31 @@ export default function Dashboard() {
 
         fetchLiveEvents();
     }, [CLIENT_ID]);
+   
+    // . ݁₊ ⊹ Safe, crash-proof filtering ⊹ . ݁˖ . ݁
+    // Safe, crash-proof filtering array assembly
+    const filteredEvents = (events || []).filter(event => {
+        if (!event) return false; // Skip any empty items safely
 
-// . ݁₊ ⊹ Dynamically filtering the results based on user types/interacts ⊹ . ݁˖ . ݁
-const fileredEvents = events.filter(event => {
-    // . ݁₊ ⊹ Search Bar checks matching the text against Title or the Venue Name ⊹ . ݁˖ . ݁
-    const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-            event.venue.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const titleText = event.title || event.short_title || '';
+        const venueText = event.venue?.name || '';
+        const eventType = event.type || '';
 
-    // . ݁₊ ⊹ Category Filter to check different attributes (event types) ⊹ . ݁˖ . ݁
-    const matchesCategory = selectedtype === 'All' || event.type === selectedtype;
+        const matchesSearch = titleText.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                venueText.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = selectedType === 'All' || eventType === selectedType;
 
-    return matchesSearch && matchesCategory;
+        return matchesSearch && matchesCategory;
 });
 
 // 3 Unique Summary Stats calculated using the dynamically filtered array
-const totalCount = fileredEvents.length;
+const totalCount = filteredEvents.length;
 
 const averagePopularity = totalCount > 0
-? (filteredEvents.reduce((sum, item) => sum + item.averagePopularity || 0, 0) / totalCount) * 100
-: 0;
+    ? (filteredEvents.reduce((sum, item) => sum + (item.popularity || 0), 0) / totalCount) * 100
+    : 0;
 // . ݁₊ ⊹ Count of events in New York State ⊹ . ݁˖ . ݁
-const eventsInNY = filteredEvents.filter(item => item.venue.state === 'NY').length;
+const eventsInNY = filteredEvents.filter(item => item.venue?.state === 'NY').length;
 
 if (loading) {
     return <div className="loading">Loading event data...</div>;
@@ -123,7 +134,7 @@ return (
                     </div>
 
                     <div className="feature-venue">
-                        {event.venue.name} • <small>{event.venue.city}, {event.venue.state}</small>
+                        {event.venue?.name} • <small>{event.venue?.city}, {event.venue?.state}</small>
                     </div>
 
                     <div className="feature-price">

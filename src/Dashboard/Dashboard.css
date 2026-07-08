@@ -60,9 +60,6 @@
   color: var(--accent-blue);
 }
 
-/* ==========================================================================
-   4. CONTROLS PANEL (Flexbox Search & Filter Layout)
-   ========================================================================== */
 .controls-panel {
   display: flex;
   gap: 1rem;

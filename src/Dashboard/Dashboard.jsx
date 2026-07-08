@@ -23,7 +23,7 @@ export default function Dashboard() {
                     setLoading(false);
                     return;
                 }
-                const response = await fetch(`https://api.seatgeek.com/2/events?client_id=${CLIENT_ID}&per_page=50`);
+                const response = await fetch(`https://api.seatgeek.com/2/events?client_id=${CLIENT_ID}&per_page=100`);
                 const data = await response.json();
 
                 // . ݁₊ ⊹ Using a fallback empty array if the 'events' key is not present or undefined ⊹ . ݁˖ . ݁
@@ -39,7 +39,6 @@ export default function Dashboard() {
     }, [CLIENT_ID]);
    
     // . ݁₊ ⊹ Safe, crash-proof filtering ⊹ . ݁˖ . ݁
-    // Safe, crash-proof filtering array assembly
     const filteredEvents = (events || []).filter(event => {
         if (!event) return false; // Skip any empty items safely
 

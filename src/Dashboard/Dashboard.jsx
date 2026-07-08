@@ -56,4 +56,85 @@ if (loading) {
     return <div className="loading">Loading event data...</div>;
 }
 
+return (
+    <div className="dashboard">
+    <header className='dashboard-header'>
+        <h1>🎫 TicketPulse: Event Dashboard</h1>
+        <p>Real-time analytics and booking insight aggregator</p>
+    </header>
+
+    {/* 3 Unique Summary Stats Pannels */}
+    <section className="stats-container">
+        <div className="stat-card">
+            <h3>Total Events Available</h3>
+            <p className="stat-number">{totalCount}</p>
+        </div>
+
+        <div className="stat-card">
+            <h3>Average Buzz / Popularity</h3>
+            <p className="stat-number">{averagePopularity.toFixed(1)}%</p>
+        </div>
+
+        <div className="stat-card">
+            <h3>Events in NY</h3>
+            <p className="stat-number">{eventsInNY}</p>
+        </div>
+    </section>
+    
+    {/* The Controls for the Search Bar and Categories */}
+    <section className="controls-pannel">
+        <input 
+          type="text"
+          className="search-input"
+          placeholder="Search by artist, team or venue..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+
+        <select 
+            className="filter-dropdown"
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+        >
+            <option value="All">All Categories</option>
+            <option value="Concert">Concert</option>
+            <option value="nba">NBA Basketball</option>
+            <option value="nfl">NFL Football</option>
+            <option value="broadway_tickets">Broadway & Theater</option>
+            <option value="comedy">Comedy</option>
+        </select>
+        </section>
+
+        {/* Data layout mapping for at least 10 items (one per row) */}
+        <main className="list-container">
+           <div className="List-header-row">
+            <span>Event & Performer</span>
+            <span>Location</span>
+            <span>Starting Price</span>
+            </div>   
+
+            {filteredEvents.length > 0 ? (
+                filteredEvents.map(event => (
+                    // . ݁₊ ⊹ Grid row template matching user elements dynamically via .map() ⊹ . ݁˖ . ݁
+                    <div key={event.id} className="data-row">
+                        <div className="feature-title">
+                        <strong>{event.short_title}</strong>
+                        <span className="badge">{event.type.replace('_', ' ')}</span>
+                    </div>
+
+                    <div className="feature-venue">
+                        {event.venue.name} • <small>{event.venue.city}, {event.venue.state}</small>
+                    </div>
+
+                    <div className="feature-price">
+                        {event.stats.lowest_price ? `$${event.stats.lowest_price}` : 'N/A'}
+                    </div>
+                </div>
+                ))
+            ) : (
+                <div className="no-results">No events found.</div>
+            )}
+        </main>
+    </div>
+    );
 }

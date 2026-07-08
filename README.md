@@ -41,8 +41,6 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 <img width="1425" height="665" alt="TicketPulse" src="https://github.com/user-attachments/assets/2e8eb010-8c02-4ca1-b2ca-ed27c5bbb834" />
 
 <!-- Replace this with whatever GIF tool you used! -->

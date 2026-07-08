@@ -2,7 +2,7 @@
 
 Submitted by: **Christine Grimadeau**
 
-This web app: **TicketPulse**
+This web app: **TicketPulse** is a real-time live entertainment data dashboard built with React and Vite. Utilizing the SeatGeek API, the platform aggregates public box office data to provide an at-a-glance summary of top trending concerts, sporting events, and theatrical productions across the country.
 
 Time spent: **21** hours spent in total
 

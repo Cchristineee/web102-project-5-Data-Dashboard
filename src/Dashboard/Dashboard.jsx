@@ -69,7 +69,7 @@ if (loading) {
 return (
     <div className="dashboard">
     <header className='dashboard-header'>
-        <h1>🎫 TicketPulse: Event Dashboard</h1>
+        <h1>TicketPulse: Event Dashboard</h1>
         <p>Real-time analytics and booking insight aggregator</p>
     </header>
 

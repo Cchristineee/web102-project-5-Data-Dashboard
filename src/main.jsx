@@ -1,11 +1,31 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
 import Dashboard from './Dashboard/Dashboard.jsx'
 
-// ݁₊ ⊹ I'm just going to wrap my application so that it can handle switching between 
+// ݁₊ ⊹ Adding a global sidebar that will stay visible across all of the pages ⊹ . ݁˖ . ݁
+function Sidebar() {
+  return (
+    <div className="app-layout">
+      <aside className="sidebar">
+        {/* Sidebar content */}
+        <div className="sidebar-brand">TicketPulse</div>
+        <nav className="sidebar-nav">
+        <Link to="/" className="nav-link">🏠 Dashboard</Link>
+        <a href="#about" className="nav-link">ℹ️ About Data</a>
+        </nav>
+      </aside>
+    
+    <main className="main-content">
+      <Outlet /> {/* So the Dashboard/EventDetail will render here */}
+    </main>
+    </div>
+  )
+}
+
+// ݁₊ ⊹ I'm also just going to wrap my application so that it can handle switching between 
 // the main dashboard view and event details ⊹ . ݁˖ . ݁
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

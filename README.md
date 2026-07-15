@@ -119,8 +119,19 @@ Here's a walkthrough of implemented user stories:
 GIF created with LICEcap
 
 ## Notes
+I didn't have too many issues for this week's lab but there were 2 that stuck out to me: 
 
-Describe any challenges encountered while building the app.
+### 1. Keeping the Sidebar Locked
+The project rules said the sidebar had to stay visible on both the main dashboard and the individual detail pages. At first, I thought I’d have to copy and paste the entire sidebar code into both files, which felt super repetitive and like a bad coding practice.
+<br>
+**Solution:**
+I dug into how React Router handles nested routes and found out about the <Outlet/> component. By setting up a global Sidebar layout wrapper in my main.jsx and putting <Outlet/> inside the main content area, the sidebar stays perfectly in place while the rest of the page swaps out dynamically.
+
+### 2. Slicing and Formatting Raw Data for My Graphs
+Setting up the charts with Recharts was a bit of a headache. The library expects a very simple, flat array of objects, but the SeatGeek API returned a massive nested mess. On top of that, some of the event titles were so long that they completely squished the graph's bottom axis, making it look incredibly cluttered and unreadable.
+<br>
+**Solution:**
+I used .map() to loop through my filtered events and extract just the numbers I needed into a clean, flat array. To fix the long title issue, I used a .substring() rule to cut off any title longer than 15 characters and added a trailing "...". It immediately made the graphs look clean and professional on any screen size.
 
 ## License
 

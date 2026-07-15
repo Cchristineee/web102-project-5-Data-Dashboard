@@ -12,7 +12,7 @@ function Sidebar() {
     <div className="app-layout">
       <aside className="sidebar">
         {/* Sidebar content */}
-        <div className="sidebar-brand">TicketPulse</div>
+        <div className="sidebar-brand">🎫 TicketPulse</div>
         <nav className="sidebar-nav">
         <Link to="/" className="nav-link">🏠 Dashboard</Link>
         <a href="#about" className="nav-link">ℹ️ About Data</a>

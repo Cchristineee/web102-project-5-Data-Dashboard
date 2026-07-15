@@ -44,7 +44,9 @@ export default function EventDetail() {
 
     return (
         <div className="event-view-container">
-            <Link to="/" className="back-btn">⬅️ Back to Performance List</Link>
+            <div className="detail-back-row">
+                <Link to="/" className="back-btn">⬅️ Back to Performance List</Link>
+            </div>
 
             <header className="detail-header">
                <span className="detail-badge">{(event.type || 'Show').replace('_', ' ')}</span>
@@ -55,40 +57,75 @@ export default function EventDetail() {
             <section className="details-card-grid">
                 <div className="detail-info-card">
                     <h4>🎟️ Ticket Inventory Metrics</h4>
-                    <ul>
-                        <li><strong>Listing Status:</strong> {event.status || 'Active'}</li>
-                        <li><strong>Listing Count:</strong> {event.stats?.listing_count ?? 'Data Protected'} available seats</li>
-                        <li><strong>Market Floor Price:</strong> {event.stats?.lowest_price ? `$${event.stats.lowest_price}` : 'Unavailable'}</li>
-                        <li><strong>Premium Ceiling Price:</strong> {event.stats?.highest_price ? `$${event.stats.highest_price}` : 'Unavailable'}</li>
-                    </ul>
+                    <div className="detail-list">
+                        <div className="detail-row">
+                            <span className="detail-key">Listing Status</span>
+                            <span className="detail-value">{event.status || 'Active'}</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Listing Count</span>
+                            <span className="detail-value">{event.stats?.listing_count ?? 'Data Protected'} available seats</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Market Floor Price</span>
+                            <span className="detail-value">{event.stats?.lowest_price ? `$${event.stats.lowest_price}` : 'Unavailable'}</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Premium Ceiling Price</span>
+                            <span className="detail-value">{event.stats?.highest_price ? `$${event.stats.highest_price}` : 'Unavailable'}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="detail-info-card">
                     <h4>📍 Logistics & Venue Blueprint</h4>
-                    <ul>
-                        <li><strong>City Region:</strong> {event.venue?.city}, {event.venue?.state}</li>
-                        <li><strong>Postal Address:</strong> {event.venue?.address || 'TBD'}</li>
-                        <li><strong>Venue Capacity Cap:</strong> {event.venue?.capacity?.toLocaleString() || 'Not Listed'} attendees</li>
-                        <li><strong>Local Scheduling Coordinate:</strong> {new Date(event.datetime_local).toLocaleString()}</li>
-                    </ul>
+                    <div className="detail-list">
+                        <div className="detail-row">
+                            <span className="detail-key">City Region</span>
+                            <span className="detail-value">{event.venue?.city}, {event.venue?.state}</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Postal Address</span>
+                            <span className="detail-value">{event.venue?.address || 'TBD'}</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Venue Capacity Cap</span>
+                            <span className="detail-value">{event.venue?.capacity?.toLocaleString() || 'Not Listed'} attendees</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Local Scheduling Coordinate</span>
+                            <span className="detail-value">{new Date(event.datetime_local).toLocaleString()}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="detail-info-card">
                     <h4>Public Tracking Attributes</h4>
-                    <ul>
-                        <li><strong>SeatGeek Scoring Index:</strong> {(event.popularity * 100).toFixed(1)} / 100</li>
-                        <li><strong>Announced On:</strong> {event.announce_date ? new Date(event.announce_date).toLocaleDateString() : 'N/A'}</li>
-                        <li><strong>Visible to Public:</strong> {event.visible_until_utc ? 'Yes' : 'No'}</li>
-                    </ul>
+                    <div className="detail-list">
+                        <div className="detail-row">
+                            <span className="detail-key">SeatGeek Scoring Index</span>
+                            <span className="detail-value">{(event.popularity * 100).toFixed(1)} / 100</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Announced On</span>
+                            <span className="detail-value">{event.announce_date ? new Date(event.announce_date).toLocaleDateString() : 'N/A'}</span>
+                        </div>
+                        <div className="detail-row">
+                            <span className="detail-key">Visible to Public</span>
+                            <span className="detail-value">{event.visible_until_utc ? 'Yes' : 'No'}</span>
+                        </div>
+                    </div>
                     <a href={event.url} target="_blank" rel="noreferrer" className="buy-btn">
                         View Official Listings on SeatGeek
                     </a>
                 </div>
+            </section>
 
+            <section className="detail-chart-card">
                 <div className="detail-info-card chart-card-detail">
                     <h4>📊 Ticket Price Spectrum</h4>
                     {event.stats?.lowest_price || event.stats?.highest_price ? (
-                        <ResponsiveContainer width="100%" height={200}>
+                        <ResponsiveContainer width="100%" height={240}>
                             <BarChart data={priceData} margin={{ top: 20, right: 20, left: -10, bottom: 5 }}>
                                 <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} />
                                 <YAxis stroke="#94a3b8" fontSize={12} />
